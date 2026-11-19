@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake News Detection System | Machine Learning & NLP</title>
+  <meta name="description" content="A Machine Learning and Natural Language Processing web application that classifies news articles and headlines as Real or Fake.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Top Announcement / Academic Header -->
+  <div class="top-banner">
+    <div class="container banner-inner">
+      <span><i class="fa-solid fa-graduation-cap"></i> B.Tech CSE Mini Project &mdash; Machine Learning &amp; Natural Language Processing</span>
+      <div class="system-status" id="system-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Backend Active</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-newspaper"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">VeriNews <span class="brand-accent">AI</span></span>
+          <span class="brand-subtitle">Fake News Detection System</span>
+        </div>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#home" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#detection" class="nav-link"><i class="fa-solid fa-magnifying-glass-chart"></i> Analyse News</a>
+        <a href="#about" class="nav-link"><i class="fa-solid fa-circle-info"></i> About Project</a>
+        <a href="#how-it-works" class="nav-link"><i class="fa-solid fa-diagram-project"></i> How It Works</a>
+        <a href="#model-info" class="nav-link"><i class="fa-solid fa-chart-line"></i> Model Metrics</a>
+        <a href="#history" class="nav-link"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main>
+
+    <!-- SECTION A: HERO / HOMEPAGE -->
+    <section class="hero-section" id="home">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>NLP Text Classification &amp; Stylometry</span>
+          </div>
+          <h1 class="hero-title">Fake News Detection System</h1>
+          <p class="hero-subtitle">
+            An intelligent machine learning application that analyses news content and identifies potentially misleading information using Natural Language Processing.
+          </p>
+          <p class="hero-desc">
+            Leveraging TF-IDF n-gram feature extraction, statistical token weighting, and linear classification models trained on extensive datasets to detect sensationalism, hyperbole, and misinformation.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#detection" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-bolt"></i> Start Detection
+            </a>
+            <a href="#model-info" class="btn btn-outline btn-lg">
+              <i class="fa-solid fa-chart-pie"></i> Explore Model Specs
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-pill">
+              <i class="fa-solid fa-database"></i>
+              <span>Kaggle Dataset</span>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-brain"></i>
+              <span>TF-IDF + Linear ML</span>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span>Real-Time Inference</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-graphic">
+          <div class="graphic-card">
+            <div class="graphic-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="graphic-label">NLP Linguistic Pipeline</span>
+            </div>
+            <div class="graphic-body">
+              <div class="code-preview">
+                <span class="code-line comment"># Machine Learning Pipeline</span>
+                <span class="code-line"><span class="keyword">Input:</span> Raw News Text &amp; Headline</span>
+                <span class="code-line"><span class="func">clean_text()</span> &rarr; strip wire headers &amp; noise</span>
+                <span class="code-line"><span class="func">TfidfVectorizer()</span> &rarr; 5,000 n-gram features</span>
+                <span class="code-line"><span class="func">SGDClassifier / Logistic</span> &rarr; Classification</span>
+                <span class="code-line output"><span class="var">Output:</span> REAL [1] vs FAKE [0] + Calibrated %</span>
+              </div>
+              <div class="graphic-badge-row">
+                <span class="badge badge-real"><i class="fa-solid fa-circle-check"></i> Genuine News</span>
+                <span class="badge badge-fake"><i class="fa-solid fa-triangle-exclamation"></i> Fake News</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION B: NEWS DETECTION SECTION -->
+    <section class="section detection-section" id="detection">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-microscope"></i> Live Inference</span>
+          <h2 class="section-title">Analyse Your News</h2>
+          <p class="section-subtitle">
+            Enter a headline or paste a full news article below. Our trained model will extract linguistic patterns and evaluate authenticity.
+          </p>
+        </div>
+
+        <!-- Sample Buttons for Quick College Demo -->
+        <div class="sample-box">
+          <span class="sample-label"><i class="fa-solid fa-lightbulb"></i> College Demonstration Samples:</span>
+          <div class="sample-buttons">
+            <button type="button" class="btn-sample btn-sample-real" id="btn-sample-real">
+              <i class="fa-solid fa-check"></i> Load Genuine News Sample
+            </button>
+            <button type="button" class="btn-sample btn-sample-fake" id="btn-sample-fake">
+              <i class="fa-solid fa-triangle-exclamation"></i> Load Fake News Sample
+            </button>
+          </div>
+        </div>
+
+        <!-- Detection Card -->
+        <div class="card detection-card">
+          <!-- Engine Selector Bar -->
+          <div class="engine-selector-box">
+            <div class="engine-label-wrap">
+              <i class="fa-solid fa-server"></i>
+              <span>Detection Mode:</span>
+            </div>
+            <div class="engine-options">
+              <label class="engine-pill active" id="lbl-engine-cloud">
+                <input type="radio" name="detection_engine" value="cloud" checked>
+                <i class="fa-solid fa-cloud"></i> Cloud AI Fact-Checker (Live Cloud Server)
+              </label>
+              <label class="engine-pill" id="lbl-engine-hybrid">
+                <input type="radio" name="detection_engine" value="hybrid">
+                <i class="fa-solid fa-bolt"></i> Hybrid (Cloud + Local ML)
+              </label>
+              <label class="engine-pill" id="lbl-engine-local">
+                <input type="radio" name="detection_engine" value="local">
+                <i class="fa-solid fa-microchip"></i> Local ML Model (Offline)
+              </label>
+            </div>
+            <button type="button" class="btn-cloud-settings" id="btn-cloud-settings" title="Configure Cloud AI API Key">
+              <i class="fa-solid fa-key"></i> Cloud API Key
+            </button>
+          </div>
+
+          <form id="detection-form">
+            <div class="input-header">
+              <label for="news-input" class="input-label">
+                <i class="fa-solid fa-newspaper"></i> News Headline or Article Content:
+              </label>
+              <div class="counter-display" id="counter-display">
+                <span id="char-count">0</span> characters &bull; <span id="word-count">0</span> words
+              </div>
+            </div>
+
+            <div class="textarea-wrapper">
+              <textarea
+                id="news-input"
+                name="news"
+                rows="8"
+                placeholder="Paste your news headline or complete article here (e.g. 'Senate passes bipartisan infrastructure package providing funding for municipal roads and water systems...')"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="alert alert-error hidden" id="error-banner">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span id="error-message">Please enter a valid news article.</span>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="clear-btn">
+                <i class="fa-solid fa-trash-can"></i> Clear
+              </button>
+              <button type="submit" class="btn btn-primary" id="analyze-btn">
+                <i class="fa-solid fa-magnifying-glass"></i> Analyse News
+              </button>
+            </div>
+          </form>
+
+          <!-- Loading Indicator -->
+          <div class="loading-container hidden" id="loading-indicator">
+            <div class="spinner"></div>
+            <p class="loading-title">Processing Textual Patterns...</p>
+            <p class="loading-desc">Executing clean_text normalization, TF-IDF n-gram vectorization, and model inference.</p>
+          </div>
+
+          <!-- Prediction Result Section -->
+          <div class="result-container hidden" id="result-container">
+            <div class="result-card" id="result-card">
+              <!-- Result Top Banner -->
+              <div class="result-header" id="result-header">
+                <div class="result-badge-group">
+                  <div class="result-icon-box" id="result-icon-box">
+                    <i class="fa-solid fa-circle-check" id="result-icon"></i>
+                  </div>
+                  <div>
+                    <span class="result-verdict-tag" id="result-verdict-tag">CLASSIFICATION VERDICT</span>
+                    <h3 class="result-title" id="result-title">Classified as REAL NEWS</h3>
+                  </div>
+                </div>
+
+                <!-- Confidence Gauge -->
+                <div class="confidence-box">
+                  <div class="confidence-label-row">
+                    <span class="confidence-title" id="confidence-title">Model Confidence</span>
+                    <span class="confidence-percent" id="confidence-percent">0.0%</span>
+                  </div>
+                  <div class="confidence-bar-bg">
+                    <div class="confidence-bar-fill" id="confidence-bar-fill"></div>
+                  </div>
+                  <span class="score-type-note" id="score-type-note">Calibrated Probability Score</span>
+                </div>
+              </div>
+
+              <!-- Result Analysis Details -->
+              <div class="result-body">
+                <div class="details-grid">
+                  <div class="detail-item">
+                    <span class="detail-label"><i class="fa-solid fa-robot"></i> Classifier Model</span>
+                    <span class="detail-value" id="res-model-name">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label"><i class="fa-solid fa-calendar-check"></i> Timestamp</span>
+                    <span class="detail-value" id="res-timestamp">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label"><i class="fa-solid fa-font"></i> Input Length</span>
+                    <span class="detail-value" id="res-length">--</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label"><i class="fa-solid fa-filter"></i> Cleaned Vocabulary</span>
+                    <span class="detail-value" id="res-cleaned-words">--</span>
+                  </div>
+                </div>
+
+                <!-- Text Preview Excerpt -->
+                <div class="text-excerpt-box">
+                  <span class="excerpt-label"><i class="fa-solid fa-quote-left"></i> Submitted Text Excerpt:</span>
+                  <p class="excerpt-content" id="res-excerpt">--</p>
+                </div>
+
+                <!-- Cloud Fact-Checking Evidence & Explanation Box -->
+                <div class="cloud-evidence-box hidden" id="cloud-evidence-box">
+                  <div class="evidence-header">
+                    <i class="fa-solid fa-cloud-bolt"></i>
+                    <span>Cloud Fact-Checking Evidence &amp; Explanation:</span>
+                  </div>
+                  <p class="evidence-text" id="res-explanation">--</p>
+                  <div class="evidence-signals" id="res-signals-container">
+                    <span class="signals-title"><i class="fa-solid fa-magnifying-glass-chart"></i> Identified Verification Signals:</span>
+                    <ul class="signals-list" id="res-signals-list"></ul>
+                  </div>
+                </div>
+
+                <!-- Academic / Scientific Disclaimer -->
+                <div class="disclaimer-box">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <p>
+                    <strong>Academic Project Disclaimer:</strong> This prediction is generated automatically by a machine learning model based on linguistic patterns, vocabulary frequency, and text stylometry. It serves as an assistive educational analytical tool and does not constitute independent, manual factual verification by journalists.
+                  </p>
+                </div>
+
+                <!-- Action Button Row -->
+                <div class="result-actions">
+                  <button type="button" class="btn btn-outline" id="btn-analyze-another">
+                    <i class="fa-solid fa-rotate-left"></i> Analyse Another Article
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-copy-result">
+                    <i class="fa-solid fa-copy"></i> Copy Analysis Summary
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION C: ABOUT PROJECT SECTION -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-book-open"></i> Project Fundamentals</span>
+          <h2 class="section-title">About The Project</h2>
+          <p class="section-subtitle">
+            An overview of the fake news challenge, how Natural Language Processing models analyze linguistic signals, and the engineering principles applied in this system.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Card 1 -->
+          <div class="card about-card">
+            <div class="about-icon-box">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h3 class="about-card-title">What is Fake News?</h3>
+            <p class="about-card-text">
+              Fake news encompasses intentionally fabricated stories, misleading propaganda, clickbait, and manipulated information masquerading as legitimate journalism. It often employs emotionally charged language, sensational headlines, and unsubstantiated claims designed to deceive or generate traffic.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="card about-card">
+            <div class="card about-icon-box">
+              <i class="fa-solid fa-shield-virus"></i>
+            </div>
+            <h3 class="about-card-title">Why Detection Matters</h3>
+            <p class="about-card-text">
+              The viral spread of misinformation distorts public perception, undermines democratic elections, fuels polarization, and poses severe dangers during public health emergencies. Automated detection provides rapid first-line screening to flag suspicious content for deeper scrutiny.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="card about-card">
+            <div class="about-icon-box">
+              <i class="fa-solid fa-network-wired"></i>
+            </div>
+            <h3 class="about-card-title">Role of Machine Learning</h3>
+            <p class="about-card-text">
+              Machine learning classifiers identify non-obvious statistical patterns in text: hyperbole, excessive punctuation, vague attributions, and sensational n-grams. Rather than searching a static fact database, the model learns the structural stylometry distinguishing genuine reporting from fabrication.
+            </p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="card about-card">
+            <div class="about-icon-box">
+              <i class="fa-solid fa-language"></i>
+            </div>
+            <h3 class="about-card-title">NLP &amp; TF-IDF Features</h3>
+            <p class="about-card-text">
+              Using Term Frequency-Inverse Document Frequency (TF-IDF), raw textual sentences are converted into high-dimensional numerical vectors. Words frequent in an article but rare across the broader corpus receive high weight, capturing contextual keywords while filtering noise words.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION D: HOW IT WORKS SECTION -->
+    <section class="section workflow-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-gears"></i> Architecture</span>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">
+            A 5-stage automated pipeline transforming unformatted text into a calibrated classification decision.
+          </p>
+        </div>
+
+        <div class="workflow-steps">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-icon">
+              <i class="fa-solid fa-file-pen"></i>
+            </div>
+            <h4 class="step-title">Text Input</h4>
+            <p class="step-desc">
+              The user submits a news headline or full article text via the web interface. Client-side input validation ensures sufficient length and content.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-icon">
+              <i class="fa-solid fa-broom"></i>
+            </div>
+            <h4 class="step-title">Text Sanitization</h4>
+            <p class="step-desc">
+              Noise filtering converts text to lowercase, removes HTML tags, web URLs, brackets, special characters, and strips news-wire header leakage.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-icon">
+              <i class="fa-solid fa-vector-square"></i>
+            </div>
+            <h4 class="step-title">TF-IDF Vectorization</h4>
+            <p class="step-desc">
+              Extracted unigrams and bigrams are mapped into a 5,000-dimensional sparse feature space using sublinear term frequency weighting.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-icon">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h4 class="step-title">Model Evaluation</h4>
+            <p class="step-desc">
+              The trained linear classifier evaluates hyperplane decision boundaries and computes calibrated posterior probability scores.
+            </p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-card">
+            <div class="step-number">5</div>
+            <div class="step-icon">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h4 class="step-title">Dynamic Output</h4>
+            <p class="step-desc">
+              The user receives a clear REAL or FAKE verdict, calibrated confidence gauge, analysis timestamps, and scientific disclaimer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION E: MODEL INFORMATION & METRICS SECTION -->
+    <section class="section model-section" id="model-info">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-chart-column"></i> Empirical Evaluation</span>
+          <h2 class="section-title">Model Performance &amp; Information</h2>
+          <p class="section-subtitle">
+            All metrics shown below are fetched dynamically from the actual trained model artifacts (<code class="inline-code">model_metrics.json</code>). No fabricated or hardcoded metrics.
+          </p>
+        </div>
+
+        <!-- Model Overview Banner -->
+        <div class="model-meta-bar">
+          <div class="meta-item">
+            <span class="meta-label">Selected Best Model</span>
+            <span class="meta-val highlight" id="metric-model-name">Loading...</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Dataset Source</span>
+            <span class="meta-val" id="metric-dataset-name">Kaggle Fake &amp; Real News</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Training Partition</span>
+            <span class="meta-val" id="metric-train-size">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Testing Partition</span>
+            <span class="meta-val" id="metric-test-size">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Trained Timestamp</span>
+            <span class="meta-val" id="metric-trained-at">--</span>
+          </div>
+        </div>
+
+        <!-- Demonstration Dataset Notice Banner -->
+        <div class="alert alert-warning hidden" id="dataset-alert-banner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>
+            <strong>Demonstration Dataset Notice:</strong>
+            <span id="dataset-warning-text">This model was evaluated on a small demonstration corpus. For production-scale accuracy and real-world evaluation, place the full Kaggle Fake and Real News dataset (44,898 articles) in the <code>dataset/</code> folder and re-run model training.</span>
+          </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="metrics-grid">
+          <div class="card metric-card">
+            <div class="metric-icon-wrap blue">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-num" id="metric-accuracy">--%</span>
+              <span class="metric-title">Accuracy</span>
+              <p class="metric-desc">Overall proportion of correct predictions across all test samples.</p>
+            </div>
+          </div>
+
+          <div class="card metric-card">
+            <div class="metric-icon-wrap green">
+              <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-num" id="metric-precision">--%</span>
+              <span class="metric-title">Precision</span>
+              <p class="metric-desc">Overall precision for identifying genuine news articles.</p>
+            </div>
+          </div>
+
+          <div class="card metric-card">
+            <div class="metric-icon-wrap purple">
+              <i class="fa-solid fa-arrows-spin"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-num" id="metric-recall">--%</span>
+              <span class="metric-title">Recall</span>
+              <p class="metric-desc">Ability of the model to correctly identify all genuine news items.</p>
+            </div>
+          </div>
+
+          <div class="card metric-card">
+            <div class="metric-icon-wrap orange">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div class="metric-data">
+              <span class="metric-num" id="metric-f1">--%</span>
+              <span class="metric-title">F1-Score</span>
+              <p class="metric-desc">Weighted harmonic mean of precision and recall for balanced evaluation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Per-Class Performance Breakdown -->
+        <div class="card class-metrics-card">
+          <div class="class-metrics-header">
+            <h3><i class="fa-solid fa-layer-group"></i> Separate Class Performance Metrics</h3>
+            <span class="badge-subtle">Class 0 (FAKE) vs Class 1 (REAL)</span>
+          </div>
+          <div class="class-metrics-grid">
+            <!-- FAKE Class -->
+            <div class="class-box fake-box">
+              <div class="class-box-header">
+                <span class="badge badge-fake"><i class="fa-solid fa-triangle-exclamation"></i> FAKE NEWS (Class 0)</span>
+                <span class="support-count" id="fake-support">Support: -- samples</span>
+              </div>
+              <div class="class-stat-row">
+                <div class="class-stat">
+                  <span class="stat-title">Precision</span>
+                  <strong id="fake-precision">--%</strong>
+                </div>
+                <div class="class-stat">
+                  <span class="stat-title">Recall</span>
+                  <strong id="fake-recall">--%</strong>
+                </div>
+                <div class="class-stat">
+                  <span class="stat-title">F1-Score</span>
+                  <strong id="fake-f1">--%</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- REAL Class -->
+            <div class="class-box real-box">
+              <div class="class-box-header">
+                <span class="badge badge-real"><i class="fa-solid fa-circle-check"></i> REAL NEWS (Class 1)</span>
+                <span class="support-count" id="real-support">Support: -- samples</span>
+              </div>
+              <div class="class-stat-row">
+                <div class="class-stat">
+                  <span class="stat-title">Precision</span>
+                  <strong id="real-precision">--%</strong>
+                </div>
+                <div class="class-stat">
+                  <span class="stat-title">Recall</span>
+                  <strong id="real-recall">--%</strong>
+                </div>
+                <div class="class-stat">
+                  <span class="stat-title">F1-Score</span>
+                  <strong id="real-f1">--%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split Grid: Confusion Matrix & Model Comparison -->
+        <div class="model-deep-dive-grid">
+          <!-- Confusion Matrix Card -->
+          <div class="card deep-dive-card">
+            <div class="deep-dive-header">
+              <h3><i class="fa-solid fa-table-cells"></i> Evaluation Confusion Matrix</h3>
+              <span class="badge-subtle">Holdout Test Set</span>
+            </div>
+            <p class="deep-dive-desc">
+              Measures classification accuracy by contrasting true ground-truth labels against model predictions.
+            </p>
+
+            <div class="matrix-table-wrapper">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2" class="matrix-th-corner">Actual Label</th>
+                    <th colspan="2" class="matrix-th-pred">Predicted Label</th>
+                  </tr>
+                  <tr>
+                    <th>Predicted FAKE (0)</th>
+                    <th>Predicted REAL (1)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="row-header">Actual FAKE (0)</td>
+                    <td class="matrix-cell tn">
+                      <span class="cell-num" id="cm-tn">--</span>
+                      <span class="cell-tag">True Negative (Fake Correct)</span>
+                    </td>
+                    <td class="matrix-cell fp">
+                      <span class="cell-num" id="cm-fp">--</span>
+                      <span class="cell-tag">False Positive (Type I Error)</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="row-header">Actual REAL (1)</td>
+                    <td class="matrix-cell fn">
+                      <span class="cell-num" id="cm-fn">--</span>
+                      <span class="cell-tag">False Negative (Type II Error)</span>
+                    </td>
+                    <td class="matrix-cell tp">
+                      <span class="cell-num" id="cm-tp">--</span>
+                      <span class="cell-tag">True Positive (Real Correct)</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="leakage-note">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span><strong>Data Leakage Prevention:</strong> Stripped standard wire-agency headers (e.g. "Reuters") during preprocessing to prevent the model from learning superficial agency tags.</span>
+            </div>
+          </div>
+
+          <!-- Models Comparison Table Card -->
+          <div class="card deep-dive-card">
+            <div class="deep-dive-header">
+              <h3><i class="fa-solid fa-scale-unbalanced-flip"></i> Algorithm Comparison</h3>
+              <span class="badge-subtle">Comparative Benchmark</span>
+            </div>
+            <p class="deep-dive-desc">
+              Performance metrics for each candidate classifier evaluated during the model selection pipeline:
+            </p>
+
+            <div class="table-responsive">
+              <table class="comparison-table" id="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Algorithm</th>
+                    <th>Accuracy</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>F1-Score</th>
+                  </tr>
+                </thead>
+                <tbody id="comparison-tbody">
+                  <tr>
+                    <td colspan="5" class="text-center">Loading comparison metrics...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="selection-justification">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Best model was selected based on the highest <strong>F1-Score</strong> on the holdout evaluation partition.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SECTION F: PREDICTION HISTORY SECTION -->
+    <section class="section history-section" id="history">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag"><i class="fa-solid fa-clock-rotate-left"></i> Session Logs</span>
+          <h2 class="section-title">Prediction History</h2>
+          <p class="section-subtitle">
+            Recent news articles analyzed during this session. Stored in runtime memory only; no personal data is permanently stored.
+          </p>
+        </div>
+
+        <div class="card history-card">
+          <div class="history-card-header">
+            <div class="history-title-group">
+              <i class="fa-solid fa-list-check"></i>
+              <h3>Session Analysis Log (<span id="history-count">0</span> items)</h3>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="btn-clear-history">
+              <i class="fa-solid fa-trash-can"></i> Clear History
+            </button>
+          </div>
+
+          <!-- History Table -->
+          <div class="table-responsive">
+            <table class="history-table" id="history-table">
+              <thead>
+                <tr>
+                  <th style="width: 8%;">#</th>
+                  <th style="width: 45%;">News Preview</th>
+                  <th style="width: 15%;">Prediction</th>
+                  <th style="width: 15%;">Confidence</th>
+                  <th style="width: 17%;">Date &amp; Time</th>
+                </tr>
+              </thead>
+              <tbody id="history-tbody">
+                <tr id="history-empty-row">
+                  <td colspan="5" class="empty-history-cell">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                    <p>No news articles analyzed yet in this session.</p>
+                    <span>Use the "Analyse Your News" section above to run your first detection!</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Website Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>VeriNews AI</span>
+        </div>
+        <p class="footer-desc">
+          A full-stack machine learning web application for natural language processing and news authenticity classification.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Flask</span>
+          <span class="tech-tag">Scikit-learn</span>
+          <span class="tech-tag">TF-IDF</span>
+          <span class="tech-tag">Joblib</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Project Sections</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#detection">Analyse News</a></li>
+          <li><a href="#about">About Project</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#model-info">Model Metrics</a></li>
+          <li><a href="#history">Prediction History</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Academic Details</h4>
+        <ul class="footer-meta">
+          <li><strong>Course:</strong> B.Tech CSE Mini Project</li>
+          <li><strong>Domain:</strong> Machine Learning &amp; NLP</li>
+          <li><strong>Algorithms:</strong> Logistic Regression, SGDClassifier, Linear SVM</li>
+          <li><strong>Dataset:</strong> Kaggle Fake &amp; Real News</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container bottom-inner">
+        <p>&copy; 2026 Fake News Detection System. Designed for Academic Demonstration.</p>
+        <p class="footer-subtext">Developed using Flask, Scikit-learn, HTML5, CSS3 &amp; JavaScript.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cloud Server Configuration Modal -->
+  <div class="modal hidden" id="cloud-config-modal">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-cloud"></i> Cloud AI Server Connection</h3>
+        <button type="button" class="btn-close-modal" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          The system connects by default to the <strong>Public Cloud Knowledge Corroboration Server</strong> (Live, no API key required).
+        </p>
+        <p class="modal-subintro">
+          For deep Generative AI journalistic fact-checking, you can optionally connect your free <strong>Google Gemini API Key</strong> (from Google AI Studio):
+        </p>
+        <div class="api-key-input-wrap">
+          <label for="gemini-api-key" class="api-label"><i class="fa-solid fa-key"></i> Gemini Cloud API Key (Optional):</label>
+          <input type="password" id="gemini-api-key" placeholder="AIzaSy..." class="modal-input" autocomplete="off">
+        </div>
+        <div class="modal-status-box" id="modal-key-status">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Live Cloud Knowledge Server active (Zero-configuration mode).</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-clear-api-key">Clear Key</button>
+        <button type="button" class="btn btn-primary" id="btn-save-api-key">Save &amp; Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom JavaScript -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
